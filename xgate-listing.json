@@ -1,0 +1,138 @@
+{
+  "name": "Crypto & Forex Price API",
+  "description": "Live cryptocurrency and forex price API with real-time data from CoinGecko and Frankfurter. Supports 20+ crypto pairs and 20+ forex pairs with caching.",
+  "version": "1.0.0",
+  "endpoint": "https://crypto-forex-price-api-production.up.railway.app",
+  "github": "https://github.com/Rzyen-hash/crypto-forex-price-api",
+  "author": "0x84FDEbBfe9692392abd30429e1a6Ae75D8B7fb3B",
+  "category": "finance",
+  "tags": [
+    "crypto",
+    "forex",
+    "price",
+    "api",
+    "coingecko",
+    "exchange-rates",
+    "bitcoin",
+    "ethereum",
+    "trading"
+  ],
+  "protocols": ["http", "x402"],
+  "endpoints": [
+    {
+      "path": "/health",
+      "method": "GET",
+      "description": "Health check endpoint",
+      "pricing": {
+        "type": "free",
+        "amount": "0"
+      }
+    },
+    {
+      "path": "/v1/price",
+      "method": "GET",
+      "description": "Get single pair price (crypto or forex)",
+      "parameters": [
+        {
+          "name": "pair",
+          "type": "string",
+          "required": true,
+          "description": "Trading pair in BASE-QUOTE format (e.g., ETH-USD, EUR-USD)"
+        }
+      ],
+      "pricing": {
+        "type": "x402",
+        "amount": "1000",
+        "currency": "USDC",
+        "network": "base"
+      },
+      "example": "https://crypto-forex-price-api-production.up.railway.app/v1/price?pair=ETH-USD"
+    },
+    {
+      "path": "/v1/price/batch",
+      "method": "GET",
+      "description": "Get multiple pair prices (max 10)",
+      "parameters": [
+        {
+          "name": "pairs",
+          "type": "string",
+          "required": true,
+          "description": "Comma-separated list of pairs (e.g., ETH-USD,BTC-USD,EUR-USD)"
+        }
+      ],
+      "pricing": {
+        "type": "x402",
+        "amount": "3000",
+        "currency": "USDC",
+        "network": "base"
+      },
+      "example": "https://crypto-forex-price-api-production.up.railway.app/v1/price/batch?pairs=ETH-USD,BTC-USD"
+    },
+    {
+      "path": "/v1/price/history",
+      "method": "GET",
+      "description": "Get historical price data",
+      "parameters": [
+        {
+          "name": "pair",
+          "type": "string",
+          "required": true,
+          "description": "Trading pair"
+        },
+        {
+          "name": "days",
+          "type": "integer",
+          "required": true,
+          "description": "Number of days (1-365)"
+        }
+      ],
+      "pricing": {
+        "type": "x402",
+        "amount": "2000",
+        "currency": "USDC",
+        "network": "base"
+      },
+      "example": "https://crypto-forex-price-api-production.up.railway.app/v1/price/history?pair=ETH-USD&days=7"
+    }
+  ],
+  "supported_pairs": {
+    "crypto": [
+      "BTC-USD", "ETH-USD", "SOL-USD", "ADA-USD", "DOT-USD",
+      "AVAX-USD", "MATIC-USD", "LINK-USD", "UNI-USD", "AAVE-USD"
+    ],
+    "forex": [
+      "EUR-USD", "GBP-USD", "JPY-USD", "AUD-USD", "CAD-USD",
+      "CHF-USD", "CNY-USD", "SEK-USD", "NZD-USD", "MXN-USD",
+      "SGD-USD", "HKD-USD", "NOK-USD", "KRW-USD", "TRY-USD",
+      "INR-USD", "BRL-USD", "ZAR-USD", "PHP-USD"
+    ]
+  },
+  "data_sources": [
+    {
+      "name": "CoinGecko",
+      "url": "https://www.coingecko.com",
+      "type": "crypto",
+      "cache_ttl": 30
+    },
+    {
+      "name": "Frankfurter",
+      "url": "https://www.frankfurter.app",
+      "type": "forex",
+      "cache_ttl": 60
+    }
+  ],
+  "tech_stack": {
+    "runtime": "Bun",
+    "framework": "Hono",
+    "language": "TypeScript",
+    "validation": "Zod"
+  },
+  "deployment": {
+    "platform": "Railway",
+    "region": "auto",
+    "url": "https://crypto-forex-price-api-production.up.railway.app"
+  },
+  "status": "active",
+  "tested": true,
+  "documentation": "https://github.com/Rzyen-hash/crypto-forex-price-api#readme"
+}
