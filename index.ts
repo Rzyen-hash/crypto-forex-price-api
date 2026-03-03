@@ -1,5 +1,6 @@
 import { Hono } from 'hono';
 import { getPrice, getBatchPrices, getHistory, isValidPair } from './src/services/price';
+import { x402PriceMiddleware, x402BatchMiddleware, x402HistoryMiddleware, getX402Manifest } from './src/middleware/x402';
 import type { BatchPriceResponse, HistoryResponse, HealthResponse } from './src/types';
 
 const app = new Hono();
@@ -11,14 +12,19 @@ app.get('/health', (c) => {
   const response: HealthResponse = {
     status: 'healthy',
     timestamp: new Date().toISOString(),
-    version: '1.0.0',
+    version: '1.1.0-x402',
     uptime: Date.now() - startTime,
   };
   return c.json(response);
 });
 
-// GET /v1/price?pair=ETH-USD ($0.001)
-app.get('/v1/price', async (c) => {
+// x402 Manifest endpoint for discovery
+app.get('/.well-known/x402-manifest', (c) => {
+  return c.json(getX402Manifest());
+});
+
+// GET /v1/price?pair=ETH-USD (0.01 USDC)
+app.get('/v1/price', x402PriceMiddleware(), async (c) => {
   const pair = c.req.query('pair');
   
   if (!pair) {
@@ -39,8 +45,8 @@ app.get('/v1/price', async (c) => {
   return c.json(price);
 });
 
-// GET /v1/price/batch?pairs=ETH-USD,BTC-USD ($0.003, max 10)
-app.get('/v1/price/batch', async (c) => {
+// GET /v1/price/batch?pairs=ETH-USD,BTC-USD (0.03 USDC, max 10)
+app.get('/v1/price/batch', x402BatchMiddleware(), async (c) => {
   const pairsParam = c.req.query('pairs');
   
   if (!pairsParam) {
@@ -76,8 +82,8 @@ app.get('/v1/price/batch', async (c) => {
   return c.json(response);
 });
 
-// GET /v1/price/history?pair=ETH-USD&days=7 ($0.002)
-app.get('/v1/price/history', async (c) => {
+// GET /v1/price/history?pair=ETH-USD&days=7 (0.02 USDC)
+app.get('/v1/price/history', x402HistoryMiddleware(), async (c) => {
   const pair = c.req.query('pair');
   const daysParam = c.req.query('days');
   
