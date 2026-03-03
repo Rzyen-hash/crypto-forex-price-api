@@ -48,28 +48,24 @@ curl "https://crypto-forex-price-api-production.up.railway.app/v1/price/history?
 
 ## ✅ Deliverable 3: xgate.run Listing
 
-**Status:** Listing file created and ready for submission
+**Status:** ✅ **Service deployed and ready for xgate.run automated discovery**
 
-**File:** `xgate-listing.json` (included in repository)
-
-**Contents:**
-- Complete API specification
-- All endpoints with pricing
-- Supported pairs documentation
-- Data sources (CoinGecko, Frankfurter)
-- Tech stack details
-
-**Note on xgate.run Process:**
-XGate is an automated discovery layer for x402-enabled services. Services are indexed automatically via on-chain transaction detection rather than manual submission. The listing file (`xgate-listing.json`) contains all required information and can be:
-1. Used for manual submission if xgate.run opens a submission portal
-2. Referenced by xgate crawlers when detecting x402 payments from this service
-3. Submitted via admin channel if available
-
-**Direct API Info:**
+**Service Information:**
+- **Name:** Crypto & Forex Price API
 - **Endpoint:** https://crypto-forex-price-api-production.up.railway.app
 - **Type:** x402-enabled HTTP API
 - **Network:** Base
-- **Pricing:** $0.001-$0.003 USDC per call
+- **Category:** Finance
+- **Tags:** crypto, forex, price, api, coingecko, exchange-rates, bitcoin, ethereum, trading, x402
+
+**Pricing:**
+- Single price: $0.001 USDC
+- Batch prices: $0.003 USDC
+- Price history: $0.002 USDC
+
+**Health Check:** https://crypto-forex-price-api-production.up.railway.app/health
+
+**Note:** XGate uses automated discovery. The service will be indexed when x402 payments are detected. Listing file (`xgate-listing.json`) is included in the repository for reference.
 
 ---
 
